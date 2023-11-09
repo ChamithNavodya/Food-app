@@ -19,6 +19,12 @@ Route::middleware('auth')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('jwt.verify')->group(function() {
+    Route::get('/dashboard', function() {
+        return response()->json(['message' => 'Welcome to dashboard'], 200);
+    });
+});
+
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
